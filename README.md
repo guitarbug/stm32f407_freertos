@@ -5,20 +5,20 @@
 
 # 通过VS Code中的STM32插件创建空白工程
 [[attachment/93fcb64e0430ac361b9e9209066b3ba3_MD5.png|Open: Pasted image 20250718151741.png]]
-![[attachment/93fcb64e0430ac361b9e9209066b3ba3_MD5.png]][[attachment/dab391222a3a038cb930da427df5b4ad_MD5.png|Open: Pasted image 20250718151900.png]]
-![[attachment/dab391222a3a038cb930da427df5b4ad_MD5.png]]\
+![](attachment/93fcb64e0430ac361b9e9209066b3ba3_MD5.png)[[attachment/dab391222a3a038cb930da427df5b4ad_MD5.png|Open: Pasted image 20250718151900.png]]
+![](attachment/dab391222a3a038cb930da427df5b4ad_MD5.png)\
 [[attachment/23273680ea305dc6e86fcb144dc9d79f_MD5.png|Open: Pasted image 20250718152108.png]]
-![[attachment/23273680ea305dc6e86fcb144dc9d79f_MD5.png]]
+![](attachment/23273680ea305dc6e86fcb144dc9d79f_MD5.png)
 [[attachment/d3f8c1cdd2bf7978e2aaae91cd24febb_MD5.png|Open: Pasted image 20250718152146.png]]
-![[attachment/d3f8c1cdd2bf7978e2aaae91cd24febb_MD5.png]]
+![](attachment/d3f8c1cdd2bf7978e2aaae91cd24febb_MD5.png)
 [[attachment/15c04332a9e33e54b7d57db7785e409d_MD5.png|Open: Pasted image 20250718152223.png]]
-![[attachment/15c04332a9e33e54b7d57db7785e409d_MD5.png]]
+![](attachment/15c04332a9e33e54b7d57db7785e409d_MD5.png)
 [[attachment/1af55ca3372771693c84094f3e901f81_MD5.png|Open: Pasted image 20250718152646.png]]
-![[attachment/1af55ca3372771693c84094f3e901f81_MD5.png]]
+![](attachment/1af55ca3372771693c84094f3e901f81_MD5.png)
 
 # 移植在Keil MDK中 可以正常运行的例程 到 VS Code
  [[attachment/5788ad2425f260f761ab874c19694899_MD5.png|Open: Pasted image 20250721161100.png]]
-![[attachment/5788ad2425f260f761ab874c19694899_MD5.png]]
+![](attachment/5788ad2425f260f761ab874c19694899_MD5.png)
  
 将 board\, bsp\, libraries\, module\ 复制 到 目录 stm32f407_freertos, 将app\main.c复制到stm32f407_freertos\Src\覆盖main.c
  `
@@ -78,10 +78,10 @@ Workspace: 正在收集工作区信息正在筛选到最相关的信息让我为
 # 开始编译main.c, 有报错, 修改CMake
 1. 错误1, ==头文件找不到==:
 [[attachment/ceefa87600ffeae5eae1b73fc398bf6a_MD5.png|Open: Pasted image 20250721163250.png]]
-![[attachment/ceefa87600ffeae5eae1b73fc398bf6a_MD5.png]]
+![](attachment/ceefa87600ffeae5eae1b73fc398bf6a_MD5.png)
 [[attachment/46b7a6f99f3eed7ebb1cf1eaf895cbcd_MD5.png|Open: Pasted image 20250721164607.png]]
 ==修改 cmake\vscode_generated.cmake , 在# Include directories 那部分里 增加 ${CMAKE_CURRENT_SOURCE_DIR}/board==
-![[attachment/46b7a6f99f3eed7ebb1cf1eaf895cbcd_MD5.png]]
+![](attachment/46b7a6f99f3eed7ebb1cf1eaf895cbcd_MD5.png)
 其他头文件找不到的错误, 都增加include路径即可, 以下是修改完的vscode_generated.cmake:
 ```# Include directories
 
@@ -103,24 +103,24 @@ set(include_c_DIRS ${include_c_DIRS}
 ```
 2. 未指定芯片类型: 在main.c中最前面的第一行增加 `#define STM32F40_41xxx`
 [[attachment/3a894373268d4a6c949ce82b1caf0182_MD5.png|Open: Pasted image 20250721170331.png]]
-![[attachment/3a894373268d4a6c949ce82b1caf0182_MD5.png]]
+![](attachment/3a894373268d4a6c949ce82b1caf0182_MD5.png)
 3. 找不到GPIO结构体定义: 在main.c 增加 `#include "stm32f4xx_gpio.h"`, 
 [[attachment/cee18a5d98b71b8d1ae33f2ab463c410_MD5.png|Open: Pasted image 20250721171303.png]]
-![[attachment/cee18a5d98b71b8d1ae33f2ab463c410_MD5.png]]
+![](attachment/cee18a5d98b71b8d1ae33f2ab463c410_MD5.png)
 4. 找不到 RCC_AHB1Periph_GPIOB 定义, 在main.c 增加 `#include "stm32f4xx_rcc.h"`
 [[attachment/c100db912273e2084e8d91c7512734c4_MD5.png|Open: Pasted image 20250721171745.png]]
-![[attachment/c100db912273e2084e8d91c7512734c4_MD5.png]]
+![](attachment/c100db912273e2084e8d91c7512734c4_MD5.png)
 ==至此 main.c编译通过. 接下来编译和链接 整个工程==
 1. 链接不到board_init等函数, 那是因为相关的c文件没有编译, 在cmake\vscode_generated.cmake 中增加相关c文件的编译.
 [[attachment/0ee091298e0ea9d9c67b029c6b441337_MD5.png|Open: Pasted image 20250721173334.png]]
-![[attachment/0ee091298e0ea9d9c67b029c6b441337_MD5.png]]
+![](attachment/0ee091298e0ea9d9c67b029c6b441337_MD5.png)
 
 2. 先增加 ${CMAKE_CURRENT_SOURCE_DIR}/board/board.c, 并单独编译board.c, 解决编译错误. 
 [[attachment/db925c80b776d3d5bc77ab6330b744e6_MD5.png|Open: Pasted image 20250721174407.png]]
-![[attachment/db925c80b776d3d5bc77ab6330b744e6_MD5.png]]
+![](attachment/db925c80b776d3d5bc77ab6330b744e6_MD5.png)
 3. 添加 bsp\uart\bsp_uart.c, 并编译相关的c文件, 直至解决所有编译错误, 多数均为头文件未包括导致找不到相关定义的错误.
 [[attachment/e214d64d253eb2f15c152eb22dd4c397_MD5.png|Open: Pasted image 20250722085637.png]]
-![[attachment/e214d64d253eb2f15c152eb22dd4c397_MD5.png]]
+![](attachment/e214d64d253eb2f15c152eb22dd4c397_MD5.png)
 
 4. 继续编译和链接整个工程, 提示未链接到RCC_AHB1PeriphClockCmd等函数, 这是ST标准库的函数, 所以需要把这个工程所用到的ST标准库的c文件加入编译列表, 在cmake\vscode_generated.cmake 中增加以下相关c文件的编译:
 ```
@@ -132,7 +132,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates
 ```
     
 [[attachment/5d90491426d81cd3992d9cc659f2ec31_MD5.png|Open: Pasted image 20250722090415.png]]
-![[attachment/5d90491426d81cd3992d9cc659f2ec31_MD5.png]]
+![](attachment/5d90491426d81cd3992d9cc659f2ec31_MD5.png)
 5. 在 cmake\vscode_generated.cmake 中的源文件之前 添加全局宏定义
 ```# 添加全局宏定义
 
@@ -283,7 +283,7 @@ int _read(int fd, char *ptr, int len)
 11. ==至此, Keil MDK中 可以正常运行的例程 已经成功移植大 到 VS Code的空白工程. 接下来移植FreeRTOS==
 12. 先从 FreeRTOS-LTS压缩包里, 将FreeRTOS Kernel: FreeRTOS-LTS\FreeRTOS\FreeRTOS-Kernel\ 复制到本项目. 
 [[attachment/9149b8049bf3981b22d84fb545389a53_MD5.png|Open: Pasted image 20250722143545.png]]
-![[attachment/9149b8049bf3981b22d84fb545389a53_MD5.png]]
+![](attachment/9149b8049bf3981b22d84fb545389a53_MD5.png)
 13. 在cmake\vscode_generated.cmake 添加 FreeRTOS源文件和include路径
 ```
   
@@ -363,10 +363,10 @@ set(include_c_DIRS ${include_c_DIRS}
 )
 ```
 [[attachment/db23cd2e69a59cb64ded92fa381bb001_MD5.png|Open: Pasted image 20250722154540.png]]
-![[attachment/db23cd2e69a59cb64ded92fa381bb001_MD5.png]]
+![](attachment/db23cd2e69a59cb64ded92fa381bb001_MD5.png)
 
 [[attachment/3883e350f28e34b990b12b272b405997_MD5.png|Open: Pasted image 20250722154600.png]]
-![[attachment/3883e350f28e34b990b12b272b405997_MD5.png]]
+![](attachment/3883e350f28e34b990b12b272b405997_MD5.png)
 
 13. 开始编译, 提示找不到 FreeRTOSConfig.h. 在Inc目录下创建FreeRTOSConfig.h文件:
 ```
